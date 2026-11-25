@@ -1,7 +1,11 @@
 #Implementation of a DES encryptor
 
-plaintxt= ""
+plaintxt= "La caca fresca es rica"
 key= ("601e172827684484")
+
+hexed= plaintxt.encode("utf-8").hex()
+
+print ((hexed))
 
 def hex2bin(s):
 	mp = {'0': "0000",
@@ -84,3 +88,46 @@ def permute (k, arr, n):
         perm=perm+k[arr[i]-1]
     return perm
 
+def permuted_choice_2(k,contr):
+    
+    def contract(k):
+        n = len (k)
+        
+        target = n-1
+        res=k.copy()
+        
+        posit= res.index(target)
+        res[posit]=res[target]
+        return res[:-1]
+    
+    def iterated(k, contr): #Apply (contr) sequential contractions to the permutation
+        
+        res = k.copy()
+        
+        for z in range (contr):
+            res = contract(res)
+            
+        return res  
+    
+    return(iterated(k,contr))
+    
+    
+
+#Left shift by n shifts
+
+def leftie(k,finalshift):
+    
+    storage="" #Empty string for storage
+    for i in range(finalshift): #shifting by amount of given shifts
+        for j in range (1,len(k)):#for every letter in string k
+            storage = storage+k[j] #Add the current letter to what storage already has
+        storage=storage + k[0] #Inverse initial perm
+        k=storage #set the current string to the one we made
+        storage = "" #Reset storage
+        
+    return k #Return current 
+
+
+        
+            
+            
